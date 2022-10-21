@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from './contexts/UserContext';
 
 const Login = () => {
+    const { signIn } = useContext(AuthContext);
+    console.log(signIn);
+
     const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
+
+        signIn(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => {
+                console.log('error', error);
+            })
     }
     return (
         <div>
@@ -29,7 +43,7 @@ const Login = () => {
                                 </label>
                                 <input type="password" name='password' placeholder="password" className="input input-bordered" required />
                                 <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                    <Link href="#" className="label-text-alt link link-hover">Forgot password?</Link>
                                 </label>
                             </div>
                             <div className="form-control mt-6">
